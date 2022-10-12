@@ -1,11 +1,16 @@
 import { Injectable, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event } from 'src/events/entities/event.entity';
-import { COFFEE_BRANDS, OTHER_COFFEE_BRANDS } from './coffees.constants';
+import {
+  ASYNC_COFFEE_BRANDS,
+  COFFEE_BRANDS,
+  OTHER_COFFEE_BRANDS,
+} from './coffees.constants';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
+import { Connection } from 'typeorm';
 
 class MockCoffeesService {}
 class ConfigService {}
@@ -16,7 +21,7 @@ class ProductionConfigService {}
 export class CoffeeBrandsFactory {
   create() {
     // do something
-    return ['Starbucks', 'Sulawesi Toraja'];
+    return ['starbucks', 'sulawesi toraja'];
   }
 }
 
@@ -46,6 +51,19 @@ export class CoffeeBrandsFactory {
       inject: [CoffeeBrandsFactory],
       useFactory: (coffeeBrandsFactory: CoffeeBrandsFactory) =>
         coffeeBrandsFactory.create(),
+    },
+    {
+      provide: ASYNC_COFFEE_BRANDS,
+      inject: [Connection],
+      useFactory: async (connection: Connection): Promise<string[]> => {
+        // const coffeeBrands = await connection.query('SELECT * ...');
+        const coffeeBrands = await Promise.resolve([
+          'el peñón',
+          'fama de américa',
+          'flor de patria',
+        ]);
+        return coffeeBrands;
+      },
     },
   ],
   exports: [CoffeesService],
