@@ -36,7 +36,7 @@ export class CoffeesService {
     console.log('☕', coffeeBrands);
     console.log('☕☕', otherCoffeeBrands);
     console.log('☕☕☕', asyncCoffeeBrands);
-    const databaseHost = this.configService.get<string>('DATABASE_HOST');
+    const databaseHost = this.configService.get('database.host');
     console.log('👉 databaseHost:', databaseHost);
   }
 
