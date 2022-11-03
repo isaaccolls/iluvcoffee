@@ -1,14 +1,8 @@
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { ConfigService, ConfigType } from '@nestjs/config';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { Event } from 'src/events/entities/event.entity';
+import { Event } from '../events/entities/event.entity';
 import { DataSource, Repository } from 'typeorm';
 import {
   ASYNC_COFFEE_BRANDS,
